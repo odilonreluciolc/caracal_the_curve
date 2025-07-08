@@ -1,3 +1,8 @@
+#### v1.3.8
+
+* Enhancements
+  * Added table cell border handling.
+
 #### v1.4.1
 
 * Bug Fixes
