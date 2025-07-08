@@ -460,6 +460,10 @@ module Caracal
             xml['w'].tr do
               tc_index = 0
               row.each do |tc|
+                cell_borders = %w(top left bottom right).select do |m|
+                  tc.send("cell_border_#{ m }_size") > 0
+                end
+
                 xml['w'].tc do
                   xml['w'].tcPr do
                     xml['w'].shd({ 'w:fill' => tc.cell_background })
@@ -483,6 +487,21 @@ module Caracal
                       end
                     end
                   end
+
+                  if cell_borders.present?
+                    xml['w'].tcBorders do
+                      cell_borders.each do |m|
+                        options = {
+                          'w:color' => model.send("cell_border_#{ m }_color"),
+                          'w:val'   => model.send("cell_border_#{ m }_line"),
+                          'w:sz'    => model.send("cell_border_#{ m }_size"),
+                          'w:space' => model.send("cell_border_#{ m }_spacing")
+                        }
+                        xml['w'].method_missing "#{ Caracal::Core::Models::BorderModel.formatted_type(m) }", options
+                      end
+                    end
+                  end
+
                   tc.contents.each do |m|
                     method = render_method_for_model(m)
                     send(method, xml, m)
