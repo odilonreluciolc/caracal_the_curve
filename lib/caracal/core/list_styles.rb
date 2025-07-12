@@ -28,6 +28,13 @@ module Caracal
               { type: :ordered,   level: 6, format: 'decimal',     value: '%7.', left: 5040, indent: 4680 },
               { type: :ordered,   level: 7, format: 'lowerLetter', value: '%8.', left: 5760, indent: 5400 },
               { type: :ordered,   level: 8, format: 'lowerRoman',  value: '%9.', left: 6480, indent: 6120, align: :right },
+
+              { type: :ordered, name: :decimal,      format: 'decimal',     value: '%1.', left: 720, indent: 360 },
+              { type: :ordered, name: :lowerLetter,  format: 'lowerLetter', value: '%1.', left: 720, indent: 360 },
+              { type: :ordered, name: :upperLetter,  format: 'upperLetter', value: '%1.', left: 720, indent: 360 },
+              { type: :ordered, name: :upperLetter,  format: 'lowerGreek',  value: '%1.', left: 720, indent: 360 },
+              { type: :ordered, name: :lowerRoman,   format: 'lowerRoman',  value: '%1.', left: 720, indent: 360, align: :right },
+              { type: :ordered, name: :upperRoman,   format: 'upperRoman',  value: '%1.', left: 720, indent: 360, align: :right },
                                                                                              
               { type: :unordered, level: 0, format: 'bullet',      value: '●',   left: 720,  indent: 360  },
               { type: :unordered, level: 1, format: 'bullet',      value: '○',   left: 1440, indent: 1080 },
@@ -37,7 +44,11 @@ module Caracal
               { type: :unordered, level: 5, format: 'bullet',      value: '■',   left: 4320, indent: 3960 },
               { type: :unordered, level: 6, format: 'bullet',      value: '●',   left: 5040, indent: 4680 },
               { type: :unordered, level: 7, format: 'bullet',      value: '○',   left: 5760, indent: 5400 },
-              { type: :unordered, level: 8, format: 'bullet',      value: '■',   left: 6480, indent: 6120 }
+              { type: :unordered, level: 8, format: 'bullet',      value: '■',   left: 6480, indent: 6120 },
+
+              { type: :unordered, name: :dot,    value: '●', left: 720, indent: 360 },
+              { type: :unordered, name: :circle, value: '○', left: 720, indent: 360 },
+              { type: :unordered, name: :square, value: '■', left: 720, indent: 360 },
             ]           
           end
           
