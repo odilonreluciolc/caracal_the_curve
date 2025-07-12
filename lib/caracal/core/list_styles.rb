@@ -77,21 +77,21 @@ module Caracal
             @list_styles ||= []
           end
           
-          def find_list_style(type, level)
-            list_styles.find { |s| s.matches?(type, level) }
+          def find_list_style(type, identifier)
+            list_styles.find { |s| s.matches?(type, identifier) }
           end
           
           
           #============== REGISTRATION ========================
           
           def register_list_style(model)
-            unregister_list_style(model.style_type, model.style_level)
+            unregister_list_style(model.style_type, model.name || model.style_level)
             list_styles << model
             model
           end
           
-          def unregister_list_style(type, level)
-            if s = find_list_style(type, level)
+          def unregister_list_style(type, identifier)
+            if s = find_list_style(type, identifier)
               list_styles.delete(s)
             end
           end
