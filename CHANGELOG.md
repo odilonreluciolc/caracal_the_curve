@@ -1,4 +1,9 @@
-#### v1.3.8
+#### v1.4.9
+
+* Enhancements
+  * Added using of different list style by name.
+
+#### v1.4.8
 
 * Enhancements
   * Added table cell border handling.
