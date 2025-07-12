@@ -29,7 +29,7 @@ module Caracal
         attr_reader :style_left
         attr_reader :style_indent
         attr_reader :style_restart
-        
+        attr_reader :style_name
         
         # initialization
         def initialize(options={}, &block)
@@ -38,6 +38,7 @@ module Caracal
           @style_indent  = DEFAULT_STYLE_INDENT
           @style_start   = DEFAULT_STYLE_START
           @style_restart = DEFAULT_STYLE_RESTART
+          @style_name    = options[:name] if options[:name]
           
           super options, &block
         end
@@ -89,8 +90,12 @@ module Caracal
         
         #=============== STATE ================================
         
-        def matches?(type, level)
-          style_type == type.to_s.to_sym && style_level == level.to_i
+        def matches?(type, identifier)
+          if identifier.is_a?(Integer)
+            style_type == type.to_s.to_sym && style_level == identifier.to_i
+          else
+            style_type == type.to_s.to_sym && style_name == identifier.to_s.to_sym
+          end
         end
         
         
