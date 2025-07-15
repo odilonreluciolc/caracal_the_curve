@@ -534,7 +534,7 @@ module Caracal
                       end
                     end
 
-                    if cell_borders.present?
+                    if !cell_borders.empty?
                       xml['w'].tcBorders do
                         cell_borders.each do |m|
                           options = {
@@ -552,6 +552,7 @@ module Caracal
                   tc.contents.each do |m|
                     method = render_method_for_model(m)
                     tc_method = "#{ method }_in_table_cell"
+
                     # if the model has a custom method for rendering in a table cell, use that
                     if respond_to?(tc_method)
                       send(tc_method, xml, m)
