@@ -215,7 +215,6 @@ module Caracal
             xml['w'].spacing({ 'w:lineRule' => 'auto', 'w:line' => ds.style_line })
             xml['w'].contextualSpacing({ 'w:val' => '0' })
             xml['w'].jc({ 'w:val' => model.image_align.to_s })
-            xml['w'].rPr
           end
           xml['w'].r run_options do
             xml['w'].drawing do
