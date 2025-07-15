@@ -29,12 +29,12 @@ module Caracal
               { type: :ordered,   level: 7, format: 'lowerLetter', value: '%8.', left: 5760, indent: 5400 },
               { type: :ordered,   level: 8, format: 'lowerRoman',  value: '%9.', left: 6480, indent: 6120, align: :right },
 
-              { type: :ordered, name: :decimal,      format: 'decimal',     value: '%1.', left: 720, indent: 360 },
-              { type: :ordered, name: :lowerLetter,  format: 'lowerLetter', value: '%1.', left: 720, indent: 360 },
-              { type: :ordered, name: :upperLetter,  format: 'upperLetter', value: '%1.', left: 720, indent: 360 },
-              { type: :ordered, name: :upperLetter,  format: 'lowerGreek',  value: '%1.', left: 720, indent: 360 },
-              { type: :ordered, name: :lowerRoman,   format: 'lowerRoman',  value: '%1.', left: 720, indent: 360, align: :right },
-              { type: :ordered, name: :upperRoman,   format: 'upperRoman',  value: '%1.', left: 720, indent: 360, align: :right },
+              { type: :ordered, level: 0, name: :decimal,      format: 'decimal',     value: '%1.', left: 720, indent: 360 },
+              { type: :ordered, level: 0, name: :lowerLetter,  format: 'lowerLetter', value: '%1.', left: 720, indent: 360 },
+              { type: :ordered, level: 0, name: :upperLetter,  format: 'upperLetter', value: '%1.', left: 720, indent: 360 },
+              { type: :ordered, level: 0, name: :upperLetter,  format: 'lowerGreek',  value: '%1.', left: 720, indent: 360 },
+              { type: :ordered, level: 0, name: :lowerRoman,   format: 'lowerRoman',  value: '%1.', left: 720, indent: 360, align: :right },
+              { type: :ordered, level: 0, name: :upperRoman,   format: 'upperRoman',  value: '%1.', left: 720, indent: 360, align: :right },
                                                                                              
               { type: :unordered, level: 0, format: 'bullet',      value: '●',   left: 720,  indent: 360  },
               { type: :unordered, level: 1, format: 'bullet',      value: '○',   left: 1440, indent: 1080 },
@@ -46,9 +46,9 @@ module Caracal
               { type: :unordered, level: 7, format: 'bullet',      value: '○',   left: 5760, indent: 5400 },
               { type: :unordered, level: 8, format: 'bullet',      value: '■',   left: 6480, indent: 6120 },
 
-              { type: :unordered, name: :dot,    value: '●', left: 720, indent: 360 },
-              { type: :unordered, name: :circle, value: '○', left: 720, indent: 360 },
-              { type: :unordered, name: :square, value: '■', left: 720, indent: 360 },
+              { type: :unordered, level: 0, name: :dot,    format: 'bullet', value: '●', left: 720, indent: 360 },
+              { type: :unordered, level: 0, name: :circle, format: 'bullet', value: '○', left: 720, indent: 360 },
+              { type: :unordered, level: 0, name: :square, format: 'bullet', value: '■', left: 720, indent: 360 },
             ]           
           end
           
@@ -85,7 +85,7 @@ module Caracal
           #============== REGISTRATION ========================
           
           def register_list_style(model)
-            unregister_list_style(model.style_type, model.name || model.style_level)
+            unregister_list_style(model.style_type, model.style_name || model.style_level)
             list_styles << model
             model
           end
