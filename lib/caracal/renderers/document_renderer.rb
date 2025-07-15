@@ -552,9 +552,8 @@ module Caracal
                   tc.contents.each do |m|
                     method = render_method_for_model(m)
                     tc_method = "#{ method }_in_table_cell"
-
                     # if the model has a custom method for rendering in a table cell, use that
-                    if respond_to?(tc_method)
+                    if respond_to?(tc_method, true)
                       send(tc_method, xml, m)
                     else
                       send(method, xml, m)
