@@ -1,3 +1,8 @@
+#### v1.4.10
+
+* Fix
+  * Remove excess new line character after an image inside a table cell.
+
 #### v1.4.9
 
 * Enhancements
