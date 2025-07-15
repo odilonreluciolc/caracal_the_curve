@@ -210,32 +210,40 @@ module Caracal
         rel_id   = rel.relationship_id
         rel_name = rel.formatted_target
 
-        xml['w'].r run_options do
-          xml['w'].drawing do
-            xml['wp'].inline({ distR: model.formatted_right, distT: model.formatted_top, distB: model.formatted_bottom, distL: model.formatted_left }) do
-              xml['wp'].extent({ cx: model.formatted_width, cy: model.formatted_height })
-              xml['wp'].effectExtent({ t: 0, b: 0, r: 0, l: 0 })
-              xml['wp'].docPr({ id: rel_id, name: rel_name })
-              xml['a'].graphic do
-                xml['a'].graphicData({ uri: 'http://schemas.openxmlformats.org/drawingml/2006/picture' }) do
-                  xml['pic'].pic do
-                    xml['pic'].nvPicPr do
-                      xml['pic'].cNvPr({ id: rel_id, name: rel_name })
-                      xml['pic'].cNvPicPr
-                    end
-                    xml['pic'].blipFill do
-                      xml['a'].blip({ 'r:embed' => rel.formatted_id })
-                      xml['a'].srcRect
-                      xml['a'].stretch do
-                        xml['a'].fillRect
+        xml['w'].p paragraph_options do
+          xml['w'].pPr do
+            xml['w'].spacing({ 'w:lineRule' => 'auto', 'w:line' => ds.style_line })
+            xml['w'].contextualSpacing({ 'w:val' => '0' })
+            xml['w'].jc({ 'w:val' => model.image_align.to_s })
+            xml['w'].rPr
+          end
+          xml['w'].r run_options do
+            xml['w'].drawing do
+              xml['wp'].inline({ distR: model.formatted_right, distT: model.formatted_top, distB: model.formatted_bottom, distL: model.formatted_left }) do
+                xml['wp'].extent({ cx: model.formatted_width, cy: model.formatted_height })
+                xml['wp'].effectExtent({ t: 0, b: 0, r: 0, l: 0 })
+                xml['wp'].docPr({ id: rel_id, name: rel_name })
+                xml['a'].graphic do
+                  xml['a'].graphicData({ uri: 'http://schemas.openxmlformats.org/drawingml/2006/picture' }) do
+                    xml['pic'].pic do
+                      xml['pic'].nvPicPr do
+                        xml['pic'].cNvPr({ id: rel_id, name: rel_name })
+                        xml['pic'].cNvPicPr
                       end
-                    end
-                    xml['pic'].spPr do
-                      xml['a'].xfrm do
-                        xml['a'].ext({ cx: model.formatted_width, cy: model.formatted_height })
+                      xml['pic'].blipFill do
+                        xml['a'].blip({ 'r:embed' => rel.formatted_id })
+                        xml['a'].srcRect
+                        xml['a'].stretch do
+                          xml['a'].fillRect
+                        end
                       end
-                      xml['a'].prstGeom({ prst: 'rect' })
-                      xml['a'].ln
+                      xml['pic'].spPr do
+                        xml['a'].xfrm do
+                          xml['a'].ext({ cx: model.formatted_width, cy: model.formatted_height })
+                        end
+                        xml['a'].prstGeom({ prst: 'rect' })
+                        xml['a'].ln
+                      end
                     end
                   end
                 end
