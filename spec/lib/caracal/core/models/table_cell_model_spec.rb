@@ -220,7 +220,7 @@ describe Caracal::Core::Models::TableCellModel do
     # .option_keys
     describe '.option_keys' do
       let(:actual)     { subject.send(:option_keys).sort }
-      let(:expected)   { [:background, :colspan, :rowspan, :width, :vertical_align, :margins].sort }
+      let(:expected)   { [:background, :border_bottom, :border_color, :border_left, :border_line, :border_right, :border_size, :border_spacing, :border_top, :colspan, :margins, :rowspan, :vertical_align, :width].sort }
       
       it { expect(actual).to eq expected }
     end

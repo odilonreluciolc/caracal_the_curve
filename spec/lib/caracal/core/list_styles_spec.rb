@@ -15,7 +15,7 @@ describe Caracal::Core::ListStyles do
   
     # .default_list_styles
     describe '.default_list_styles' do
-      let(:expected) { 18 }
+      let(:expected) { 27 }
       let(:actual)   { subject.class.default_list_styles.size }
 
       it {expect(actual).to eq expected }
