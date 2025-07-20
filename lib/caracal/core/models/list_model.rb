@@ -23,13 +23,13 @@ module Caracal
         # accessors
         attr_reader :list_type
         attr_reader :list_level
-        attr_reader :style_name
+        attr_reader :list_style
         
         # initialization
         def initialize(options={}, &block)
           @list_type  = DEFAULT_LIST_TYPE
           @list_level = DEFAULT_LIST_LEVEL
-          @style_name = options[:style_name]
+          @list_style = options[:style]
           
           super options, &block
         end
@@ -82,19 +82,11 @@ module Caracal
         end
 
         # symbols
-        [:type].each do |m|
+        [:type, :style].each do |m|
           define_method "#{ m }" do |value|
             instance_variable_set("@list_#{ m }", value.to_s.to_sym)
           end
         end
-
-        # strings
-        [:style_name].each do |m|
-          define_method "#{ m }" do |value|
-            instance_variable_set("@list_#{ m }", value.to_s)
-          end
-        end
-        
         
         
         #=============== SUB-METHODS ===========================
