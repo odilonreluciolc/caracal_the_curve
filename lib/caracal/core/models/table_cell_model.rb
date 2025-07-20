@@ -60,9 +60,11 @@ module Caracal
 
           super options, &block
 
-          p_klass = Caracal::Core::Models::ParagraphModel     # the final tag in a table cell
-          unless contents.last.is_a? p_klass                  # *must* be a paragraph for OOXML
-            contents << p_klass.new(content: '')              # to not throw an error.
+          # the final tag in a table cell *must* be a paragraph for OOXML to not throw an error.
+          img_klass = Caracal::Core::Models::ImageModel
+          p_klass = Caracal::Core::Models::ParagraphModel
+          if !contents.last.is_a?(p_klass) && !contents.last.is_a?(img_klass)
+            contents << p_klass.new(content: '')
           end
         end
 
