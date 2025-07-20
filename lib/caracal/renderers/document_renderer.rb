@@ -198,60 +198,6 @@ module Caracal
         end
       end
 
-      # This method renders an image inside a table cell.
-      # It is similar to the `render_image` method, but it uses a different
-      # XML structure to skip enclosing it in paragraph.
-      def render_image_in_table_cell(xml, model)
-        unless ds = document.default_style
-          raise Caracal::Errors::NoDefaultStyleError 'Document must declare a default paragraph style.'
-        end
-
-        rel      = document.relationship({ type: :image, target: model.image_url, data: model.image_data })
-        rel_id   = rel.relationship_id
-        rel_name = rel.formatted_target
-
-        xml['w'].p paragraph_options do
-          xml['w'].pPr do
-            xml['w'].spacing({ 'w:lineRule' => 'auto', 'w:line' => ds.style_line, 'w:before' => '0', 'w:after' => '0' })
-            xml['w'].contextualSpacing({ 'w:val' => '0' })
-            xml['w'].jc({ 'w:val' => model.image_align.to_s })
-          end
-          xml['w'].r run_options do
-            xml['w'].drawing do
-              xml['wp'].inline({ distR: model.formatted_right, distT: model.formatted_top, distB: model.formatted_bottom, distL: model.formatted_left }) do
-                xml['wp'].extent({ cx: model.formatted_width, cy: model.formatted_height })
-                xml['wp'].effectExtent({ t: 0, b: 0, r: 0, l: 0 })
-                xml['wp'].docPr({ id: rel_id, name: rel_name })
-                xml['a'].graphic do
-                  xml['a'].graphicData({ uri: 'http://schemas.openxmlformats.org/drawingml/2006/picture' }) do
-                    xml['pic'].pic do
-                      xml['pic'].nvPicPr do
-                        xml['pic'].cNvPr({ id: rel_id, name: rel_name })
-                        xml['pic'].cNvPicPr
-                      end
-                      xml['pic'].blipFill do
-                        xml['a'].blip({ 'r:embed' => rel.formatted_id })
-                        xml['a'].srcRect
-                        xml['a'].stretch do
-                          xml['a'].fillRect
-                        end
-                      end
-                      xml['pic'].spPr do
-                        xml['a'].xfrm do
-                          xml['a'].ext({ cx: model.formatted_width, cy: model.formatted_height })
-                        end
-                        xml['a'].prstGeom({ prst: 'rect' })
-                        xml['a'].ln
-                      end
-                    end
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
-
       def render_linebreak(xml, model)
         xml['w'].r do
           xml['w'].br
@@ -558,13 +504,7 @@ module Caracal
 
                   tc.contents.each do |m|
                     method = render_method_for_model(m)
-                    tc_method = "#{ method }_in_table_cell"
-                    # if the model has a custom method for rendering in a table cell, use that
-                    if respond_to?(tc_method, true)
-                      send(tc_method, xml, m)
-                    else
-                      send(method, xml, m)
-                    end
+                    send(method, xml, m)
                   end
                 end
 
