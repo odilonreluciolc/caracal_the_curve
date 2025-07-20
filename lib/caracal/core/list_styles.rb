@@ -32,7 +32,7 @@ module Caracal
               { type: :ordered, level: 0, name: :decimal,      format: 'decimal',     value: '%1.', left: 720, indent: 360 },
               { type: :ordered, level: 0, name: :lowerLetter,  format: 'lowerLetter', value: '%1.', left: 720, indent: 360 },
               { type: :ordered, level: 0, name: :upperLetter,  format: 'upperLetter', value: '%1.', left: 720, indent: 360 },
-              { type: :ordered, level: 0, name: :upperLetter,  format: 'lowerGreek',  value: '%1.', left: 720, indent: 360 },
+              { type: :ordered, level: 0, name: :lowerGreek,   format: 'lowerGreek',  value: '%1.', left: 720, indent: 360 },
               { type: :ordered, level: 0, name: :lowerRoman,   format: 'lowerRoman',  value: '%1.', left: 720, indent: 360, align: :right },
               { type: :ordered, level: 0, name: :upperRoman,   format: 'upperRoman',  value: '%1.', left: 720, indent: 360, align: :right },
                                                                                              
