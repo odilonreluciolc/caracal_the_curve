@@ -92,7 +92,7 @@ module Caracal
         
         def matches?(type, identifier)
           if identifier.is_a?(Integer)
-            style_type == type.to_s.to_sym && style_level == identifier.to_i
+            style_type == type.to_s.to_sym && style_level == identifier
           else
             style_type == type.to_s.to_sym && style_name == identifier.to_s.to_sym
           end
