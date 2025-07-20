@@ -74,14 +74,14 @@ module Caracal
         end
         
         # strings
-        [:format, :value, :name].each do |m|
+        [:format, :value].each do |m|
           define_method "#{ m }" do |value|
             instance_variable_set("@style_#{ m }", value.to_s)
           end
         end
         
         # symbols
-        [:type, :align].each do |m|
+        [:type, :align, :name].each do |m|
           define_method "#{ m }" do |value|
             instance_variable_set("@style_#{ m }", value.to_s.to_sym)
           end
