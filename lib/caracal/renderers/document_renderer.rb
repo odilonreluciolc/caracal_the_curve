@@ -458,6 +458,9 @@ module Caracal
           rowspan_hash = {}
           model.rows.each do |row|
             xml['w'].tr do
+              xml['w'].trPr do
+                xml['w'].cantSplit if model.table_prevent_row_split
+              end
               tc_index = 0
               row.each do |tc|
                 cell_borders = %w(top left bottom right).select do |m|

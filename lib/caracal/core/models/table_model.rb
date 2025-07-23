@@ -21,7 +21,8 @@ module Caracal
         const_set(:DEFAULT_TABLE_BORDER_COLOR,      'auto')
         const_set(:DEFAULT_TABLE_BORDER_LINE,       :single)
         const_set(:DEFAULT_TABLE_BORDER_SIZE,       0)          # units in 1/8 points
-        const_set(:DEFAULT_TABLE_BORDER_SPACING,    0)          
+        const_set(:DEFAULT_TABLE_BORDER_SPACING,    0)    
+        const_set(:DEFAULT_TABLE_PREVENT_ROW_SPLIT, false)      
         
         # accessors
         attr_reader :table_align
@@ -36,14 +37,16 @@ module Caracal
         attr_reader :table_border_right       # returns border model
         attr_reader :table_border_horizontal  # returns border model
         attr_reader :table_border_vertical    # returns border model
+        attr_reader :table_prevent_row_split
         
         # initialization
         def initialize(options={}, &block)
-          @table_align          = DEFAULT_TABLE_ALIGN
-          @table_border_color   = DEFAULT_TABLE_BORDER_COLOR
-          @table_border_line    = DEFAULT_TABLE_BORDER_LINE
-          @table_border_size    = DEFAULT_TABLE_BORDER_SIZE
-          @table_border_spacing = DEFAULT_TABLE_BORDER_SPACING
+          @table_align              = DEFAULT_TABLE_ALIGN
+          @table_border_color       = DEFAULT_TABLE_BORDER_COLOR
+          @table_border_line        = DEFAULT_TABLE_BORDER_LINE
+          @table_border_size        = DEFAULT_TABLE_BORDER_SIZE
+          @table_border_spacing     = DEFAULT_TABLE_BORDER_SPACING
+          @table_prevent_row_split  = DEFAULT_TABLE_PREVENT_ROW_SPLIT
           
           super options, &block
         end
@@ -120,6 +123,13 @@ module Caracal
         
         #=============== SETTERS ==============================
         
+        # booleans
+        [:prevent_row_split].each do |m|
+          define_method "#{ m }" do |value|
+            instance_variable_set("@table_#{ m }", !!value)
+          end
+        end
+        
         # integers
         [:border_size, :border_spacing, :width].each do |m|
           define_method "#{ m }" do |value|
@@ -193,6 +203,7 @@ module Caracal
         
         def option_keys
           k = []
+          k << [:prevent_row_split]
           k << [:data, :align, :width]
           k << [:border_color, :border_line, :border_size, :border_spacing]
           k << [:border_bottom, :border_left, :border_right, :border_top, :border_horizontal, :border_vertical]

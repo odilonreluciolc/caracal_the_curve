@@ -129,6 +129,29 @@ describe Caracal::Core::Models::TableModel do
               it { expect(actual).to eq subject.send("table_border_#{ m }_total_size") }
             end
           end
+          describe "table_prevent_row_split" do
+            let(:actual) { subject.table_prevent_row_split }
+            
+            describe 'when set to true' do
+              before do
+                subject.prevent_row_split(true)
+              end
+              
+              it { expect(actual).to eq true }
+            end
+            
+            describe 'when set to false' do
+              before do
+                subject.prevent_row_split(false)
+              end
+              
+              it { expect(actual).to eq false }
+            end
+
+            describe 'when not set' do
+              it { expect(actual).to eq false }
+            end
+          end
         end
       end
     
@@ -136,6 +159,13 @@ describe Caracal::Core::Models::TableModel do
     
     
     #=============== SETTERS ==========================
+
+    # .prevent_row_split
+    describe '.prevent_row_split' do
+      before { subject.prevent_row_split(true) }
+
+      it { expect(subject.table_prevent_row_split).to eq true }
+    end
     
     # .align
     describe '.align' do
@@ -209,7 +239,7 @@ describe Caracal::Core::Models::TableModel do
     # .option_keys
     describe '.option_keys' do
       let(:actual)     { subject.send(:option_keys).sort }
-      let(:expected1)  { [:data, :align, :width] }
+      let(:expected1)  { [:prevent_row_split, :data, :align, :width] }
       let(:expected2)  { [:border_color, :border_line, :border_size, :border_spacing] }
       let(:expected3)  { [:border_top, :border_bottom, :border_left, :border_right, :border_horizontal, :border_vertical] }
       let(:expected)   { (expected1 + expected2 + expected3).sort }
