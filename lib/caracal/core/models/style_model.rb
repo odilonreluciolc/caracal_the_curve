@@ -15,20 +15,21 @@ module Caracal
         #--------------------------------------------------
 
         # constants
-        const_set(:DEFAULT_STYLE_TYPE,       'paragraph')
-        const_set(:DEFAULT_STYLE_COLOR,      '333333')
-        const_set(:DEFAULT_STYLE_SIZE,       20)
-        const_set(:DEFAULT_STYLE_BOLD,       false)
-        const_set(:DEFAULT_STYLE_ITALIC,     false)
-        const_set(:DEFAULT_STYLE_UNDERLINE,  false)
-        const_set(:DEFAULT_STYLE_CAPS,       false)
-        const_set(:DEFAULT_STYLE_ALIGN,      :left)
-        const_set(:DEFAULT_STYLE_LINE,       360)        # 0.25in in twips
-        const_set(:DEFAULT_STYLE_TOP,        0)          # 0.0in  in twips
-        const_set(:DEFAULT_STYLE_BOTTOM,     0)          # 0.0in  in twips
-        const_set(:DEFAULT_STYLE_BASE,       'Normal')
-        const_set(:DEFAULT_STYLE_NEXT,       'Normal')
-        const_set(:DEFAULT_STYLE_OUTLINE,    9)          # no level
+        const_set(:DEFAULT_STYLE_TYPE,                'paragraph')
+        const_set(:DEFAULT_STYLE_COLOR,               '333333')
+        const_set(:DEFAULT_STYLE_SIZE,                20)
+        const_set(:DEFAULT_STYLE_BOLD,                false)
+        const_set(:DEFAULT_STYLE_ITALIC,              false)
+        const_set(:DEFAULT_STYLE_UNDERLINE,           false)
+        const_set(:DEFAULT_STYLE_CAPS,                false)
+        const_set(:DEFAULT_STYLE_ALIGN,               :left)
+        const_set(:DEFAULT_STYLE_LINE,                360)        # 0.25in in twips
+        const_set(:DEFAULT_STYLE_TOP,                 0)          # 0.0in  in twips
+        const_set(:DEFAULT_STYLE_BOTTOM,              0)          # 0.0in  in twips
+        const_set(:DEFAULT_STYLE_BASE,                'Normal')
+        const_set(:DEFAULT_STYLE_NEXT,                'Normal')
+        const_set(:DEFAULT_STYLE_OUTLINE,             9)          # no level
+        const_set(:DEFAULT_STYLE_CONTEXTUAL_SPACING,  true)
 
         # accessors
         attr_reader :style_default
@@ -52,13 +53,15 @@ module Caracal
         attr_reader :style_indent_right
         attr_reader :style_indent_first
         attr_reader :style_outline
+        attr_reader :style_contextual_spacing
 
         # initialization
         def initialize(options={}, &block)
-          @style_default = false
-          @style_type    = DEFAULT_STYLE_TYPE
-          @style_base    = DEFAULT_STYLE_BASE
-          @style_next    = DEFAULT_STYLE_NEXT
+          @style_default            = false
+          @style_type               = DEFAULT_STYLE_TYPE
+          @style_base               = DEFAULT_STYLE_BASE
+          @style_next               = DEFAULT_STYLE_NEXT
+          @style_contextual_spacing = DEFAULT_STYLE_CONTEXTUAL_SPACING
 
           super options, &block
 
@@ -86,7 +89,7 @@ module Caracal
         #========== SETTERS ===============================
 
         # booleans
-        [:bold, :italic, :underline, :caps].each do |m|
+        [:bold, :italic, :underline, :caps, :contextual_spacing].each do |m|
           define_method "#{ m }" do |value|
             instance_variable_set("@style_#{ m }", !!value)
           end
@@ -159,7 +162,8 @@ module Caracal
             :indent_left,
             :indent_right,
             :indent_first,
-            :outline ]
+            :outline,
+            :contextual_spacing ]
         end
 
       end
