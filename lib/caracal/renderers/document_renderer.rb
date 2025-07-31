@@ -309,15 +309,28 @@ module Caracal
         hanging = ls.style_left.to_i - ls.style_indent.to_i - 1
 
         xml['w'].p paragraph_options do
-          xml['w'].pPr do
-            xml['w'].numPr do
-              xml['w'].ilvl({ 'w:val' => model.list_item_level })
-              xml['w'].numId({ 'w:val' => list_num })
+          if model.list_item_style.nil?
+            xml['w'].pPr do
+              xml['w'].numPr do
+                xml['w'].ilvl({ 'w:val' => model.list_item_level })
+                xml['w'].numId({ 'w:val' => list_num })
+              end
+              xml['w'].ind({ 'w:left' => ls.style_left, 'w:hanging' => hanging })
+              xml['w'].contextualSpacing({ 'w:val' => '1' })
+              xml['w'].rPr do
+                xml['w'].u({ 'w:val' => 'none' })
+              end
             end
-            xml['w'].ind({ 'w:left' => ls.style_left, 'w:hanging' => hanging })
-            xml['w'].contextualSpacing({ 'w:val' => '1' })
-            xml['w'].rPr do
-              xml['w'].u({ 'w:val' => 'none' })
+          else
+            xml['w'].pPr do
+              xml['w'].pStyle({ 'w:val' => model.list_item_style })
+              xml['w'].numPr do
+                xml['w'].ilvl({ 'w:val' => model.list_item_level })
+                xml['w'].numId({ 'w:val' => list_num })
+              end
+              xml['w'].rPr do
+                xml['w'].u({ 'w:val' => 'none' })
+              end
             end
           end
           model.runs.each do |run|
