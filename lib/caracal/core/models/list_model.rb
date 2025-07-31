@@ -29,7 +29,6 @@ module Caracal
         def initialize(options={}, &block)
           @list_type  = DEFAULT_LIST_TYPE
           @list_level = DEFAULT_LIST_LEVEL
-          @list_style = options[:style]
           
           super options, &block
         end
