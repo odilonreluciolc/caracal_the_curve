@@ -247,6 +247,10 @@ module Caracal
                   xml['w'].sz({ 'w:val' => model.toc_size })
                   xml['w'].szCs({ 'w:val' => model.toc_size })
                 end
+                if @pagebreak_on_next_paragraph
+                  xml['w'].br({ 'w:type' => 'page' })
+                  @pagebreak_on_next_paragraph = false
+                end
                 xml['w'].t model.toc_title
               end
             end
