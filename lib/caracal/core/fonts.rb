@@ -40,6 +40,10 @@ module Caracal
             end
             model
           end
+
+          def embed_font(name, path:, key:, bold: false, italic: false)
+            models << Caracal::Core::Models::FontModel.new(name: name, path: path, key: key, bold: bold, italic: italic)
+          end
           
           
           #============== GETTERS =============================
