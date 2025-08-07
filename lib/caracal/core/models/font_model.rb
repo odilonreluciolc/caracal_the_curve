@@ -13,11 +13,28 @@ module Caracal
         #-------------------------------------------------------------
         # Configuration
         #-------------------------------------------------------------
+
+        # constants
+        const_set(:DEFAULT_BOLD,   false)
+        const_set(:DEFAULT_ITALIC, false)
         
         # accessors
         attr_reader :font_name
+        attr_reader :font_path
+        attr_reader :font_bold
+        attr_reader :font_italic
+        attr_reader :font_key
         
-        
+        # initialization
+        def initialize(options={}, &block)
+          @font_name   = options[:name]
+          @font_path   = options[:path]
+          @font_key    = options[:key]
+          @font_bold   = DEFAULT_BOLD
+          @font_italic = DEFAULT_ITALIC
+          
+          super options, &block
+        end
         
         #-------------------------------------------------------------
         # Public Instance Methods
@@ -26,9 +43,16 @@ module Caracal
         #=============== SETTERS ==============================
         
         # strings
-        [:name].each do |m|
+        [:name, :key, :path].each do |m|
           define_method "#{ m }" do |value|
             instance_variable_set("@font_#{ m }", value.to_s)
+          end
+        end
+
+        # booleans
+        [:bold, :italic].each do |m|
+          define_method "#{ m }" do |value|
+            instance_variable_set("@font_#{ m }", !!value)
           end
         end
         
@@ -47,6 +71,13 @@ module Caracal
           a.map { |m| send("font_#{ m }") }.compact.size == a.size
         end
         
+        def embed?
+          !!@font_path
+        end
+
+        def relationship_id
+          "rIdFont_#{@font_name.gsub(/\s+/, '_')}"
+        end
         
         #-------------------------------------------------------------
         # Private Instance Methods
@@ -54,7 +85,7 @@ module Caracal
         private
         
         def option_keys
-          [:name]
+          [:name, :key, :path, :bold, :italic]
         end
         
       end
