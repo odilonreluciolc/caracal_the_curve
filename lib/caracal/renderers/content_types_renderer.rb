@@ -23,6 +23,7 @@ module Caracal
             xml.send 'Default', { 'Extension' => 'png',  'ContentType' => 'image/png' }
             xml.send 'Default', { 'Extension' => 'rels', 'ContentType' => 'application/vnd.openxmlformats-package.relationships+xml' }
             xml.send 'Default', { 'Extension' => 'xml',  'ContentType' => 'application/xml' }
+            xml.send 'Default', { 'Extension' => 'ttf' , 'ContentType' => 'application/x-font-ttf' }
             xml.send 'Override', { 'PartName' => '/docProps/app.xml',    'ContentType' => 'application/vnd.openxmlformats-officedocument.extended-properties+xml' }
             xml.send 'Override', { 'PartName' => '/docProps/core.xml',   'ContentType' => 'application/vnd.openxmlformats-package.core-properties+xml' }
             xml.send 'Override', { 'PartName' => '/docProps/custom.xml', 'ContentType' => 'application/vnd.openxmlformats-officedocument.custom-properties+xml' }
