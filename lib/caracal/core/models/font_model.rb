@@ -24,14 +24,16 @@ module Caracal
         attr_reader :font_bold
         attr_reader :font_italic
         attr_reader :font_key
+        attr_reader :font_relationship_id
         
         # initialization
         def initialize(options={}, &block)
-          @font_name   = options[:name]
-          @font_path   = options[:path]
-          @font_key    = options[:key]
-          @font_bold   = DEFAULT_BOLD
-          @font_italic = DEFAULT_ITALIC
+          @font_name            = options[:name]
+          @font_path            = options[:path]
+          @font_key             = options[:key]
+          @font_relationship_id = options[:relationship_id]
+          @font_bold            = DEFAULT_BOLD
+          @font_italic          = DEFAULT_ITALIC
           
           super options, &block
         end
@@ -43,7 +45,7 @@ module Caracal
         #=============== SETTERS ==============================
         
         # strings
-        [:name, :key, :path].each do |m|
+        [:name, :key, :path, :relationship_id].each do |m|
           define_method "#{ m }" do |value|
             instance_variable_set("@font_#{ m }", value.to_s)
           end
@@ -74,10 +76,6 @@ module Caracal
         def embed?
           !!@font_path
         end
-
-        def relationship_id
-          "rIdFont_#{@font_name.gsub(/\s+/, '_')}"
-        end
         
         #-------------------------------------------------------------
         # Private Instance Methods
@@ -85,7 +83,7 @@ module Caracal
         private
         
         def option_keys
-          [:name, :key, :path, :bold, :italic]
+          [:name, :key, :path, :bold, :italic, :relationship_id]
         end
         
       end
