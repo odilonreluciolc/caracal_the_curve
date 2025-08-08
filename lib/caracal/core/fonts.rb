@@ -42,7 +42,21 @@ module Caracal
           end
 
           def embed_font(name, path:, key:, bold: false, italic: false)
-            models << Caracal::Core::Models::FontModel.new(name: name, path: path, key: key, bold: bold, italic: italic)
+            relationship_properties = {
+              type: :font_file,
+              target: "fonts/#{File.basename(path)}"
+            }
+            relationship = document.relationship(relationship_properties)
+
+            font_properties = {
+              name: name,
+              path: path,
+              key: key,
+              bold: bold,
+              italic: italic,
+              relationship_id: relationship.formatted_id
+            }
+            models << Caracal::Core::Models::FontModel.new(font_properties)
           end
           
           
