@@ -161,6 +161,7 @@ module Caracal
         render_core(zip)
         render_custom(zip)
         render_fonts(zip)
+        save_font_files(zip)
         render_footer(zip)
         render_header(zip)
         render_settings(zip)
@@ -294,5 +295,18 @@ module Caracal
       zip.write(content)
     end
 
+    def save_font_files(zip)
+      document.fonts.each do |font|
+        next if !font.embed?
+ 
+        if File.exist?(font.font_path)
+          zip.put_next_entry("word/fonts/#{File.basename(font.font_path)}")
+          zip.write(File.read(font.font_path))
+        else
+          raise Caracal::Errors::FileNotFoundError, "Font file not found: #{font.font_path}"
+        end
+      end
+    end
+    
   end
 end
