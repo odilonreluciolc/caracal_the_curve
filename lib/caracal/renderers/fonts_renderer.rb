@@ -18,7 +18,14 @@ module Caracal
         builder = ::Nokogiri::XML::Builder.with(declaration_xml) do |xml|
           xml['w'].fonts root_options do
             document.fonts.each do |font|
-              xml['w'].font({ 'w:name' => font.font_name })
+              xml['w'].font({ 'w:name' => font.font_name }) do
+                next if !font.embed?
+
+                xml['w'].charset({ 'w:val' => '00' })
+                xml['w'].family({ 'w:val' => 'auto' })
+                xml['w'].pitch({ 'w:val' => 'variable' })
+                xml['w'].embedRegular({ 'r:id' => font.relationship_id })
+              end
             end
           end
         end
