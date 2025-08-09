@@ -125,7 +125,11 @@ Specifies the title of the document. *This file is generated automatically by th
 Specifies the custom document properties. *This file is generated automatically by the library based on other user directives.*
 
 **word/_rels/document.xml.rels**
-Defines an internal identifier and type with all external content items (images, links, etc). *This file is generated automatically by the library based on other user directives.*
+Defines an internal identifier and type with all external content items (images, links, etc). *This file is generated automatically by the library based on other user directives.
+
+**word/_rels/fontTable.xml.rels**
+Defines an internal identifier and type with embedded fonts for offline use. *This file is generated automatically by the library based on other user directives.
+*
 
 **word/media/**
 A collection of media assets (each of which should have an entry in document.xml.rels).
@@ -327,6 +331,14 @@ Fonts are added to the font table file by calling the `font` method and passing 
 docx.font do
   name 'Droid Serif'
 end
+```
+
+To use custom font with offline viewing capability, use the `font_file` method and pass the name and path to the font file.
+
+* Only supports TTF file format *
+
+```ruby
+docx.font_file name: 'Barlow', path: '/app/assets/fonts/somefontfilenamedBarlow.tff`
 ```
 
 
