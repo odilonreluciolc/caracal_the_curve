@@ -18,6 +18,8 @@ module Caracal
         builder = ::Nokogiri::XML::Builder.with(declaration_xml) do |xml|
           xml.send 'Relationships', root_options do
             document.relationships.each do |rel|
+              next if rel.relationship_type == :font_file
+              
               xml.send 'Relationship', rel_options(rel)
             end
           end
