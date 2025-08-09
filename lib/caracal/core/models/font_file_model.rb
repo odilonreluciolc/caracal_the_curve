@@ -43,11 +43,17 @@ module Caracal
         #-------------------------------------------------------------
     
 
+        #=============== GETTERS ===============================
+
         def internal_name
-          "font#{@font_relationship_id}#{file_extension}"
+          "font#{font_relationship_id}#{file_extension}"
 
         def file_extension
-          File.extname(@font_path)
+          File.extname(font_path)
+        end
+
+        def relationship_formatted_id
+          "rId#{font_relationship_id}"
         end
 
         #=============== SETTERS ==============================
