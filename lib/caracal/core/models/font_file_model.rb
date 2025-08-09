@@ -47,6 +47,7 @@ module Caracal
 
         def internal_name
           "font#{font_relationship_id}#{file_extension}"
+        end
 
         def file_extension
           File.extname(font_path)

@@ -252,7 +252,6 @@ module Caracal
 
         zip.put_next_entry("word/fonts/#{font_file.internal_name}")
         zip.write(File.read(font_file.font_path))
-        end
       end
     end
 
