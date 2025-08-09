@@ -42,6 +42,11 @@ module Caracal
         # Public Instance Methods
         #-------------------------------------------------------------
     
+
+        def file_extension
+          File.extname(@font_path)
+        end
+
         #=============== SETTERS ==============================
         
         # strings
