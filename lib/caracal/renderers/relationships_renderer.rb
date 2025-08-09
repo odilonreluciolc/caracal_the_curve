@@ -17,9 +17,8 @@ module Caracal
       def to_xml
         builder = ::Nokogiri::XML::Builder.with(declaration_xml) do |xml|
           xml.send 'Relationships', root_options do
-            document.relationships.each do |rel|
-              next if rel.relationship_type == :font_file
-              
+            relationships = document.relationships.select { |r| r.relationship_type != :font_file }
+            relationships.each do |rel|
               xml.send 'Relationship', rel_options(rel)
             end
           end
