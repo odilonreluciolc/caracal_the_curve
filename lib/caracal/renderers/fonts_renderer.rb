@@ -24,7 +24,7 @@ module Caracal
                 xml['w'].charset({ 'w:val' => '00' })
                 xml['w'].family({ 'w:val' => 'auto' })
                 xml['w'].pitch({ 'w:val' => 'variable' })
-                xml['w'].embedRegular({ 'r:id' => font.relationship_id })
+                xml['w'].embedRegular({ 'r:id' => font.font_relationship_id })
               end
             end
           end
