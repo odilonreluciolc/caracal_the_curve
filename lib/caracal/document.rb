@@ -241,8 +241,17 @@ module Caracal
           raise Caracal::Errors::FileNotFoundError, "Font file not found: #{font.font_path}"
         end
 
-        zip.put_next_entry("word/fonts/font#{font_file.font_relationship_id}#{font_file.file_extension}")
-        zip.write(File.read(font_file.font_path))  
+        font_file.relationship_id(relationship_counter.to_i + 1)
+
+        relationship_properties = {
+          id: font_file.font_relationship_id,
+          type: :font_file,
+          target: "fonts/#{font_file.internal_name}",
+        }
+        relationship = document.relationship(relationship_properties)
+
+        zip.put_next_entry("word/fonts/#{font_file.internal_name}")
+        zip.write(File.read(font_file.font_path))
         end
       end
     end
