@@ -6,6 +6,7 @@ require 'caracal/core/custom_properties'
 require 'caracal/core/fields'
 require 'caracal/core/file_name'
 require 'caracal/core/fonts'
+require 'caracal/core/font_files'
 require 'caracal/core/footer'
 require 'caracal/core/header'
 require 'caracal/core/iframes'
@@ -55,6 +56,7 @@ module Caracal
     include Caracal::Core::Relationships
 
     include Caracal::Core::Fonts
+    include Caracal::Core::FontFiles
     include Caracal::Core::PageSettings
     include Caracal::Core::PageNumbers
     include Caracal::Core::Styles
@@ -161,6 +163,7 @@ module Caracal
         render_core(zip)
         render_custom(zip)
         render_fonts(zip)
+        copy_font_files(zip)
         render_footer(zip)
         render_header(zip)
         render_settings(zip)
@@ -230,6 +233,18 @@ module Caracal
 
       zip.put_next_entry('word/fontTable.xml')
       zip.write(content)
+    end
+
+    def copy_font_files(zip)
+      document.font_files.each do |font_file|
+        if !File.exist?(font_file.font_path)
+          raise Caracal::Errors::FileNotFoundError, "Font file not found: #{font.font_path}"
+        end
+
+        zip.put_next_entry("word/fonts/font#{font_file.font_relationship_id}#{font_file.file_extension}")
+        zip.write(File.read(font_file.font_path))  
+        end
+      end
     end
 
     def render_footer(zip)
