@@ -59,8 +59,12 @@ module Caracal
           "fonts/font#{ relationship_id }.#{ ext }"
         end
         
-        def formatted_type
-          TYPE_MAP.fetch(relationship_type)
+        def formatted_type(type = nil)
+          return TYPE_MAP.fetch(relationship_type) if type.nil?
+          
+          TYPE_MAP.fetch(type.to_sym) do
+            raise Caracal::Errors::InvalidModelError, "Unknown relationship type: #{ type }"
+          end
         end
         
         

@@ -17,8 +17,13 @@ module Caracal
       def to_xml
         builder = ::Nokogiri::XML::Builder.with(declaration_xml) do |xml|
           xml.send 'Relationships', root_options do
-            relationships = document.relationships.select { |r| r.relationship_type != :font_file }
-            relationships.each do |rel|
+            document.relationships.each do |rel|
+              if rel.relationship_type == :font_file
+                xml.send 'Relationship', font_file_rel_options(rel)
+                
+                next
+              end
+
               xml.send 'Relationship', rel_options(rel)
             end
           end
@@ -32,6 +37,12 @@ module Caracal
       #------------------------------------------------------------- 
       private
       
+      def font_file_rel_options(rel)
+        opts = { 'Target' => 'fontTable.xml', 'Type' => rel.formatted_type(:font), 'Id' => rel.formatted_id}
+        opts['TargetMode'] = 'External' if rel.target_mode?
+        opts
+      end
+
       def rel_options(rel)
         opts = { 'Target' => rel.formatted_target, 'Type' => rel.formatted_type, 'Id' => rel.formatted_id}
         opts['TargetMode'] = 'External' if rel.target_mode?
