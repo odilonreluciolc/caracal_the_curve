@@ -169,6 +169,7 @@ module Caracal
         render_relationships(zip)   # Must go here: Depends on document renderer
         render_media(zip)           # Must go here: Depends on document renderer
         render_numbering(zip)       # Must go here: Depends on document renderer
+        render_font_table_relationships(zip)
       end
     end
 
@@ -280,6 +281,13 @@ module Caracal
       zip.write(content)
     end
 
+    def render_font_table_relationships(zip)
+      content = ::Caracal::Renderers::FontTableRelationshipsRenderer.render(self)
+
+      zip.put_next_entry('word/_rels/fontTable.xml.rels')
+      zip.write(content)
+    end
+    
     def render_settings(zip)
       content = ::Caracal::Renderers::SettingsRenderer.render(self)
 
