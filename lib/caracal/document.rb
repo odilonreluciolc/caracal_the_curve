@@ -236,7 +236,7 @@ module Caracal
     end
 
     def copy_font_files(zip)
-      document.font_files.each do |font_file|
+      font_files.each do |font_file|
         if !File.exist?(font_file.font_path)
           raise Caracal::Errors::FileNotFoundError, "Font file not found: #{font.font_path}"
         end
@@ -248,7 +248,7 @@ module Caracal
           type: :font_file,
           target: "fonts/#{font_file.internal_name}",
         }
-        relationship = document.relationship(relationship_properties)
+        relationship = relationship(relationship_properties)
 
         zip.put_next_entry("word/fonts/#{font_file.internal_name}")
         zip.write(File.read(font_file.font_path))
