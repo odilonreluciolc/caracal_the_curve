@@ -16,7 +16,8 @@ module Caracal
     
         # constants
         TYPE_MAP = {
-          font:       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable', 
+          font:       'http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable',
+          font_file:  'http://schemas.openxmlformats.org/officeDocument/2006/relationships/font',
           footer:     'http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer',
           header:     'http://schemas.openxmlformats.org/officeDocument/2006/relationships/header',
           image:      'http://schemas.openxmlformats.org/officeDocument/2006/relationships/image',
@@ -46,17 +47,24 @@ module Caracal
         end
         
         def formatted_target
-          if relationship_type == :image
-            ext = relationship_target.to_s.split('.').last
-            ext = ext.split('?').first
-            "media/image#{ relationship_id }.#{ ext }"
-          else
-            relationship_target
+          if relationship_type != :image && relationship_type != :font_file
+            return relationship_target
           end
+
+          ext = relationship_target.to_s.split('.').last
+          ext = ext.split('?').first
+
+          return "media/image#{ relationship_id }.#{ ext }" if relationship_type == :image
+          
+          "fonts/font#{ relationship_id }.#{ ext }"
         end
         
-        def formatted_type
-          TYPE_MAP.fetch(relationship_type)
+        def formatted_type(type = nil)
+          return TYPE_MAP.fetch(relationship_type) if type.nil?
+          
+          TYPE_MAP.fetch(type.to_sym) do
+            raise Caracal::Errors::InvalidModelError, "Unknown relationship type: #{ type }"
+          end
         end
         
         

@@ -6,6 +6,7 @@ require 'caracal/core/custom_properties'
 require 'caracal/core/fields'
 require 'caracal/core/file_name'
 require 'caracal/core/fonts'
+require 'caracal/core/font_files'
 require 'caracal/core/footer'
 require 'caracal/core/header'
 require 'caracal/core/iframes'
@@ -35,6 +36,7 @@ require 'caracal/renderers/footer_renderer'
 require 'caracal/renderers/header_renderer'
 require 'caracal/renderers/numbering_renderer'
 require 'caracal/renderers/package_relationships_renderer'
+require 'caracal/renderers/font_table_relationships_renderer'
 require 'caracal/renderers/relationships_renderer'
 require 'caracal/renderers/settings_renderer'
 require 'caracal/renderers/styles_renderer'
@@ -55,6 +57,7 @@ module Caracal
     include Caracal::Core::Relationships
 
     include Caracal::Core::Fonts
+    include Caracal::Core::FontFiles
     include Caracal::Core::PageSettings
     include Caracal::Core::PageNumbers
     include Caracal::Core::Styles
@@ -160,6 +163,7 @@ module Caracal
         render_app(zip)
         render_core(zip)
         render_custom(zip)
+        copy_font_files(zip)
         render_fonts(zip)
         render_footer(zip)
         render_header(zip)
@@ -169,6 +173,7 @@ module Caracal
         render_relationships(zip)   # Must go here: Depends on document renderer
         render_media(zip)           # Must go here: Depends on document renderer
         render_numbering(zip)       # Must go here: Depends on document renderer
+        render_font_table_relationships(zip)
       end
     end
 
@@ -231,6 +236,26 @@ module Caracal
       zip.write(content)
     end
 
+    def copy_font_files(zip)
+      font_files.each do |font_file|
+        if !File.exist?(font_file.font_path)
+          raise Caracal::Errors::FileNotFoundError, "Font file not found: #{font.font_path}"
+        end
+
+        font_file.relationship_id(relationship_counter.to_i + 1)
+
+        relationship_properties = {
+          id: font_file.font_relationship_id,
+          type: :font_file,
+          target: "fonts/#{font_file.internal_name}",
+        }
+        relationship = relationship(relationship_properties)
+
+        zip.put_next_entry("word/fonts/#{font_file.internal_name}")
+        zip.write(File.read(font_file.font_path))
+      end
+    end
+
     def render_footer(zip)
       content = ::Caracal::Renderers::FooterRenderer.render(self)
 
@@ -280,6 +305,13 @@ module Caracal
       zip.write(content)
     end
 
+    def render_font_table_relationships(zip)
+      content = ::Caracal::Renderers::FontTableRelationshipsRenderer.render(self)
+
+      zip.put_next_entry('word/_rels/fontTable.xml.rels')
+      zip.write(content)
+    end
+    
     def render_settings(zip)
       content = ::Caracal::Renderers::SettingsRenderer.render(self)
 
