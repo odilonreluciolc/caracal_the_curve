@@ -85,7 +85,7 @@ module Caracal
           #============== REGISTRATION ========================
           
           def register_list_style(model)
-            unregister_list_style(model.style_type, model.style_name || model.style_level)
+            unregister_list_style(model.style_type, model.style_level)
             list_styles << model
             model
           end
