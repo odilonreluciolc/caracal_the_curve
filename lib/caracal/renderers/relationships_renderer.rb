@@ -19,7 +19,7 @@ module Caracal
           xml.send 'Relationships', root_options do
             document.relationships.each do |rel|
               if rel.relationship_type == :font_file
-                xml.send 'Relationship', font_file_rel_options(rel)
+                # xml.send 'Relationship', font_file_rel_options(rel)
                 
                 next
               end
