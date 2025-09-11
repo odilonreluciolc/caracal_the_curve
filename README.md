@@ -301,6 +301,20 @@ Page breaks can be added via the `page` method.  The method accepts no parameter
 docx.page     # starts a new page.
 ```
 
+### Page Footer
+
+Page footer is added to the document by using `footer` method. It can be set
+to render on the first page only by adding `first_page_only: true` parameter.
+
+```ruby
+docx.footer do
+  p "This is a default footer"
+end
+
+docx.footer first_page_only: true do
+  p "Title page footer"
+end
+```
 
 ### Page Numbers
 

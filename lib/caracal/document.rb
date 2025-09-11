@@ -33,6 +33,7 @@ require 'caracal/renderers/custom_renderer'
 require 'caracal/renderers/document_renderer'
 require 'caracal/renderers/fonts_renderer'
 require 'caracal/renderers/footer_renderer'
+require 'caracal/renderers/first_page_footer_renderer'
 require 'caracal/renderers/header_renderer'
 require 'caracal/renderers/numbering_renderer'
 require 'caracal/renderers/package_relationships_renderer'
@@ -141,6 +142,10 @@ module Caracal
     #
     def contents
       @contents ||= []
+    end
+
+    def first_page_footer_content
+      @first_page_footer_content
     end
 
     def footer_content
@@ -257,10 +262,21 @@ module Caracal
     end
 
     def render_footer(zip)
-      content = ::Caracal::Renderers::FooterRenderer.render(self)
+      if first_page_footer_content.nil?
+        content = ::Caracal::Renderers::FooterRenderer.render(self)
+        zip.put_next_entry('word/footer1.xml')
+        zip.write(content)
+      elsif first_page_footer_content&.valid?
+        content = ::Caracal::Renderers::FirstPageFooterRenderer.render(self)
+        zip.put_next_entry('word/footer1.xml')
+        zip.write(content)
 
-      zip.put_next_entry('word/footer1.xml')
-      zip.write(content)
+        content = ::Caracal::Renderers::FooterRenderer.render(self)
+        zip.put_next_entry('word/footer2.xml')
+        zip.write(content)
+
+        relationship({ target: 'footer2.xml', type: :footer })
+      end
     end
 
     def render_header(zip)

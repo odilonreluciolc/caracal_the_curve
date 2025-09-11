@@ -7,6 +7,8 @@ module Caracal
   module Core
     module Models
 
+      attr_reader :first_page_only
+      
       # This class handles block options passed to tables via their data
       # collections.
       #
@@ -18,6 +20,8 @@ module Caracal
 
         # initialization
         def initialize(options={}, &block)
+          @first_page_only = options[:first_page_only] || false
+          
           super options, &block
         end
 
@@ -29,6 +33,10 @@ module Caracal
 
         def contents
           @contents ||= []
+        end
+
+        def first_page_only
+          @first_page_only
         end
 
         #=============== VALIDATION ===========================

@@ -11,13 +11,23 @@ module Caracal
       # Public Methods
       #-------------------------------------------------------------
 
-      # This method produces the xml required for the `word/footer1.xml`
+      # This method produces the xml required for the `word/footer1.xml` / `word/footer2.xml`
       # sub-document.
       #
       def to_xml
         builder = ::Nokogiri::XML::Builder.with(declaration_xml) do |xml|
-          if document.page_number_show
-            xml['w'].ftr root_options do
+          xml['w'].ftr root_options do
+
+            #============= CONTENTS ===================================
+            if document.footer_content&.valid?
+              document.footer_content.contents.each do |model|
+                method = render_method_for_model(model)
+                send(method, xml, model)
+              end
+            end
+
+            #============= PAGE NUMBER ================================
+            if document.page_number_show
               xml['w'].p paragraph_options do
                 xml['w'].pPr do
                   xml['w'].contextualSpacing({ 'w:val' => '0' })
@@ -56,17 +66,7 @@ module Caracal
                 end
               end
             end
-          else
-            xml['w'].ftr root_options do
-
-              #============= CONTENTS ===================================
-              if document.footer_content&.valid?
-                document.footer_content.contents.each do |model|
-                  method = render_method_for_model(model)
-                  send(method, xml, model)
-                end
-              end
-            end
+            
           end
         end
         builder.to_xml(save_options)
