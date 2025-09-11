@@ -274,6 +274,8 @@ module Caracal
         content = ::Caracal::Renderers::FooterRenderer.render(self)
         zip.put_next_entry('word/footer2.xml')
         zip.write(content)
+
+        register_relationship({ target: 'footer2.xml', type: :footer })
       end
     end
 
