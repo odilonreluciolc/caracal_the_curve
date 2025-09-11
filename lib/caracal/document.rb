@@ -143,6 +143,10 @@ module Caracal
       @contents ||= []
     end
 
+    def first_page_footer_content
+      @footer_content if @footer_content&.first_page_only
+    end
+
     def footer_content
       @footer_content
     end
