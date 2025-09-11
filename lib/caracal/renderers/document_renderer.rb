@@ -32,7 +32,7 @@ module Caracal
 
               xml['w'].sectPr do
                 if rel = document.find_relationship('footer1.xml')
-                  if document.first_page_footer
+                  if document.first_page_footer_content
                     xml['w'].titlePg 
                     xml['w'].footerReference({ 'r:id' => rel.formatted_id, 'w:type' => 'first' })
                   else
