@@ -144,7 +144,7 @@ module Caracal
     end
 
     def first_page_footer_content
-      @footer_content if @footer_content&.first_page_only
+      @first_page_footer_content
     end
 
     def footer_content
@@ -261,10 +261,19 @@ module Caracal
     end
 
     def render_footer(zip)
-      content = ::Caracal::Renderers::FooterRenderer.render(self)
+      if first_page_footer_content.nil?
+        content = ::Caracal::Renderers::FooterRenderer.render(self)
+        zip.put_next_entry('word/footer1.xml')
+        zip.write(content)
+      elsif first_page_footer_content&.valid?
+        content = ::Caracal::Renderers::FirstPageFooterRenderer.render(self)
+        zip.put_next_entry('word/footer1.xml')
+        zip.write(content)
 
-      zip.put_next_entry('word/footer1.xml')
-      zip.write(content)
+        content = ::Caracal::Renderers::FooterRenderer.render(self)
+        zip.put_next_entry('word/footer2.xml')
+        zip.write(content)
+      end
     end
 
     def render_header(zip)

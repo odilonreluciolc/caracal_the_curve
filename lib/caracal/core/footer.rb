@@ -21,7 +21,11 @@ module Caracal
 
             model = Caracal::Core::Models::FooterModel.new(options, &block)
 
-            @footer_content = model
+            if model.first_page_only
+              @first_page_footer_content = model
+            else
+              @footer_content = model
+            end
 
             model
           end
