@@ -34,6 +34,10 @@ module Caracal
             xml.send 'Override', { 'PartName' => '/word/numbering.xml',  'ContentType' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml' }
             xml.send 'Override', { 'PartName' => '/word/settings.xml',   'ContentType' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml' }
             xml.send 'Override', { 'PartName' => '/word/styles.xml',     'ContentType' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml' }
+
+            if document.first_page_footer_content&.valid?
+              xml.send 'Override', { 'PartName' => '/word/footer2.xml', 'ContentType' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml' }
+            end
           end
         end
         builder.to_xml(save_options)

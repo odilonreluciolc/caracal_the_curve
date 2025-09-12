@@ -164,7 +164,6 @@ module Caracal
     def render
       buffer = ::Zip::OutputStream.write_buffer do |zip|
         render_package_relationships(zip)
-        render_content_types(zip)
         render_app(zip)
         render_core(zip)
         render_custom(zip)
@@ -175,6 +174,7 @@ module Caracal
         render_settings(zip)
         render_styles(zip)
         render_document(zip)
+        render_content_types(zip)
         render_relationships(zip)   # Must go here: Depends on document renderer
         render_media(zip)           # Must go here: Depends on document renderer
         render_numbering(zip)       # Must go here: Depends on document renderer
